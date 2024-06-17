@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dart Genius 3000</title>
+  <link rel="stylesheet" href="style/screen.css">
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <script src="script/datahandler.js"></script>
+  <script src="script/app.js"></script>
+</head>
+
+<body class="o-body">
+
+  <header class="c-header">
+    <div class="c-header__menu">
+      <div class="logowithbutton">
+        <div class="c-header__logo"></div>
+        <button type="button" class=" logowithbutton--button c-button--small c-button c-button--active c-button--nonactive js-login2">log in</button>
+      </div>
+      <nav class="c-header__nav">
+        <ul class="c-header__nav-list">
+          <li class="c-header__nav-item"><a href="#" class="c-header__nav-link js-sensors">Sensors</a></li>
+          <li class="c-header__nav-item "><a href="#" class="c-header__nav-link js-scoreboard">Scoreboard</a></li>
+          <li class="c-header__nav-item"><a href="#" class="c-header__nav-link js-lights">Lights</a></li>
+          <li class="c-header__nav-item"><a href="#" class="c-header__nav-link js-games">Games</a></li>
+          <li class="c-header__nav-item"><a href="#" class="c-header__nav-link js-livegame o-hidden">livegame</a></li>
+        </ul>
+      </nav>
+      <button type="button" class=" c-header__button c-button--small c-button c-button--active c-button--nonactive js-login">Log in</button>
+    </div>
+    <div class="c-header__user">
+      <div class="o-designblock__wrapper">
+        <img class="o-designblock__img img__large" src="/images/dartboardpicuser.jpg" alt="userpic">
+
+        <div class="o-designblock__text">
+          <h1 class="o-designblock__title c-reset js-user--name js-header--username">no user</h1>
+          <div class="o-designblock__scores">
+            <p class="o-designblock__scores--text">Games: </p>
+            <p class="o-designblock__scores--score js-user-games">/</p>
+            <p class="o-designblock__scores--text">boules: </p>
+            <p class="o-designblock__scores--score js-user-boules">/</p>
+          </div>
+
+        </div>
+      </div>
+      <p class="c-buttons">
+        <button type="button" class= " c-button--active c-button--nonactive c-button c-button--visiteupdate js-delete-user o-hidden">Remove user</button>
+        <a href="" class="c-button c-button--active c-button--nonactive c-button--visiteupdate js-create-user">create user</a>
+        <a href="" class="c-button c-button--active c-button--nonactive c-button--visiteupdate js-update-user o-hidden">update user</a>
+
+      </p>
+    </div>
+  </header>
+
+  <main class="o-container">
+    <div class="overlay-form-create-user --row o-hidden" >
+      <form class="create-user-form">
+        <label for="name">Name:</label>
+        <input type="text" id="nameformcreate" name="name" >
+        <br>
+        <label for="surname">Surname:</label>
+        <input type="text" id="surnameformcreate" name="surname" >
+        <br>
+        <label for="age">Age:</label>
+        <input type="number" id="ageformcreate" name="age" >
+        <br>
+        <label for="length">Length:</label>
+        <input type="number" id="lengthformcreate" name="length" >
+        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="usernameformcreate" name="username" >
+        <br>
+        <label for="country">Country:</label>
+        <input type="text" id="countryformcreate" name="country" >
+        <br>
+        <input type="submit" class="js-button-createuser" placeholder="create user">
+        <button type="button" class="js-hideoverlayformcreateuser">Cancel</button>
+      </form>
+    </div>
+    <div class="overlay js-overlay o-hidden --row">
+      <ul class="userlist js-userlist">
+        
+      </ul>
+    </div>
+
+
+
+    <div class="page1 c-Scoreboard c-section--row ">
+      <div class="--row ">
+        <div class="--1of2large c-Scoreboard--top--title">SCOREBOARD</div>
+        <div class="--1of2small c-Scoreboard--top--playercount js-playercount">2091 Players</div>
+      </div>
+      <div class="--row ">
+        <div class="--1of2 c-button--active c-button--large c-button js-YOURSTATS">YOUR STATS</div>
+        <div class="--1of2 c-button--active c-button--nonactive c-button--large c-button js-WORLDWIDESTATS">WORLDWIDE STATS</div>
+      </div>
+      <div class="--row ">
+        <div class="--1of3 c-button--active c-button--nonactive c-button--large c-button js-301">301</div>
+        <div class="--1of3 c-button--active c-button--nonactive c-button--large c-button js-501">501</div>
+        <div class="--1of3 c-button--active c-button--nonactive c-button--large c-button js-9lives">9lives</div>
+      </div>
+      <div class="c-Scoreboard--graphs --row">
+        <div class="--1of2 c-Scoreboard--graphs">
+          <label for="daily" class="c-Scoreboard--graphs--text js-dailyscore-graph">Your daily highest score</label>
+          <div class="c-Scoreboard--graphs--graph" id="Dailygraph"></div>
+        </div>
+        <div class="--1of2 c-Scoreboard--graphs">
+          <label for="daily" class="c-Scoreboard--graphs--text js-weeklyscore-graph">Your weekly highest score</label>
+          <div class="c-Scoreboard--graphs--graph" id="Weeklygraph"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="page2 c-Lights c-section--row o-hidden">
+      <div class="c-Lights--Availablelight --row">
+        <div class="c-Lights--Availablelight--text">Available light</div>
+        <div class="c-Lights--Availablelight--progress">
+          <div class="c-Lights--Availablelight--progress-bar" id="progress-bar"></div>
+          <div class="c-Lights--Availablelight--progress--text" id="progress-text">0%</div>
+        </div>
+      </div>
+      <div class="c-Lights--lamps --row">
+        <div class="--1of3 c-button--active c-button--nonactive c-button c-button--large jslamp1">Lamp 1</div>
+        <div class="--1of3 c-button--active c-button--nonactive c-button c-button--large jslamp2">Lamp 2</div>
+        <div class="--1of3 c-button--active c-button--nonactive c-button c-button--large jslamp3">Lamp 3</div>
+      </div>
+    </div>
+     
+    <div class=" c-Games ">
+      <div class=" c-Gameuserinput ">
+        <div class="page3 c-Playerdetails c-section--row o-hidden">
+          <div class=" --row --row--first">
+            <div class="--1of2large c-button c-button--active c-button--large ">Player details</div>
+            <div class="--1of2small c-button c-button--nonactive c-button--large c-button--noborder c-button--backgroundcolor">Game settings</div>
+          </div>
+          <div class="c-Playerdetails--block">
+            <div class=" --row">
+              <div class="--1of2 c-button c-button--active c-button c-button--active c-button--large js-single-playerdetails">Single</div>
+              <div class="--1of2 c-button c-button--nonactive c-button c-button--nonactive c-button--large js-teams-playerdetails">Teams</div>
+            </div>
+              
+            <div class="c-Playerdetails--adduser --row js-adduserrowteam o-hidden">
+              <div class="--1of3 c-Playerdetails--adduser--team">
+                <div class="c-Playerdetails--adduser--team--users js-adduser-team1">
+                </div>
+                <div class="c-Playerdetails--adduser--team--add plus-icon js-adduser-btn" data-team="1"></div>
+              </div>
+              <div class="--1of3 c-Playerdetails--adduser--VS"> VS </div>
+              <div class="--1of3 c-Playerdetails--adduser--team c-Playerdetails--adduser--team--reverse">
+                <div class="c-Playerdetails--adduser--team--users js-adduser-team2">
+                </div>
+                <div class="c-Playerdetails--adduser--team--add plus-icon js-adduser-btn2" data-team="2"></div>
+              </div>
+            </div>
+
+            <!-- <div class="popup js-popup"> -->
+                <!--  -->
+            <!-- </div> -->
+            <div class="c-Playerdetails--adduser --row js-adduserrowsingle">
+              <div class="--1of1 c-Playerdetails--adduser--team">
+                <div class="c-Playerdetails--adduser--team--users js-adduser-team3">
+                  <div class="c-Playerdetails--adduser--team--add plus-icon js-adduser-btn3" data-team="3"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="--row --row--first">
+            <div class="--1of3 c-button  c-button--active c-button--small">Player details</div>
+            <div class="--1of3 c-button c-button--nonactive c-button--small c-button--backgroundcolor js-next">next</div>
+          </div>
+        </div>
+         <div class="page4 c-Gamesettings c-section--row o-hidden">
+          <div class="--row --row--first">
+            <div class="--1of2small c-button c-button--nonactive c-button--large c-button--backgroundcolor c-button--noborder">Player details</div>
+            <div class="--1of2large c-button c-button--active c-button--large ">Game settings</div>
+          </div>
+          <div class="c-Gamesettings--block ">
+            <div class="--row">
+              <div class="--1of3 c-button--active c-button c-button--large js-games-gamemode-301">301</div>
+              <div class="--1of3 c-button--nonactive c-button c-button--large js-games-gamemode-501">501</div>
+              <div class="--1of3 c-button--nonactive c-button c-button--large js-games-gamemode-9lives">9lives</div>
+            </div>
+            <div class="c-Gamesettings--out">
+              <div class="--row">
+                <div class="--1of2 c-button c-button--active  c-button--large js-games-doubleout">Double out</div>
+                <div class="--1of2 c-button c-button--nonactive c-button--large js-games-singleout">Single out</div>
+              </div>
+            </div>
+            <div class="c-Gamesettings--startgame">
+              <div class="c-Gamesettings--startgame c-Gamesettings--row">
+                <div class="--1of1 c-button c-button--active c-button--large js-games-startgame">START GAME</div>
+              </div>
+            </div>
+          </div>
+          <div class="--row --row--first">
+            <div class="--1of3 c-button c-button--nonactive c-button--small c-button--backgroundcolor c-button--noborder js-previous">Previous</div>
+            <div class="--1of3 c-button c-button--active c-button--small">Game settings</div>
+          </div>
+        </div>
+      </div>
+      <div class="page5 c-GameLive c-section--row o-hidden">
+        <div class="c-GameLive--top">
+          <div class="--row --row--first">
+            <div class="--1of2small c-button c-button--nonactive c-button--large c-button--backgroundcolor c-button--noborder js-gamelive-gamemode">501</div>
+            <div class="--1of2large c-button c-button--active c-button--large">Game mode</div>
+          </div>
+          <div class="--row js-gamelive-teamselect">
+                <div class="--1of2 c-button c-button--active c-button--large js-gamelive-team1-btn">Team1</div>
+                <div class="--1of2 c-button c-button--nonactive c-button--large js-gamelive-team2-btn">Team2</div>
+          </div>
+        </div>
+        <div class="c-GameLive--stop">
+          <div class="c-button --1of3 c-button--backgroundcolor c-button--noborder c-button--nonactive js-stop">STOP</div>
+        </div>
+        <div class="--row">
+          <div class="c-GameLive--Teamscoring--Team --1of2  js-gamelive-team1">
+          </div>
+          <div class="c-GameLive--Teamscoring--Team --1of2 js-gamelive-team2">
+          </div>
+        </div>        
+      </div>
+    </div> 
+
+    <div class="page6 c-Sensors c-section--row o-hidden">
+
+      <div class="c-Sensors--temp c-Sensors--row">
+        <label for="temp" class="c-Sensors--temp--text js-temperature-graph">temperaturesensor</label>
+        <div class="c-Sensors--temp--graph" id="temperatureChart"></div>
+      </div>
+      <div class="c-Sensors--light c-Sensors--row">
+        <label for="light" class="c-Sensors--light--text js-light-graph">lightsensor</label>
+        <div class="c-Sensors--light--graph" id="lightChart">
+      </div>
+      </div>
+      <div class="c-Sensors--speedstepmotor c-Sensors--row">
+        <label for="speedstepmotor" class="c-Sensors--speedstepmotor--title js-positionstepmotor">lasersensor kijkt naar: </label>
+        <div class="c-Sensors--speedstepmotor--text js-position">6</div>
+      </div>
+      <div class="--row c-Sensors--row">
+        <label for="stepmotor" class="c-Sensors--Stepmotor--text">stepmotor distance covered</label>
+        <div class="c-Sensors--Stepmotor--progress">
+          <div class="c-Sensors--Stepmotor--progress--text js-distance">0%</div>
+        </div>
+      </div>      
+    </div>
+  </main>
+
+  <!-- <div class="js-IDuser"></div>
+<div class="js-age"></div>
+<div class="js-country"></div>
+<div class="js-length"></div>
+<div class="js-name"></div>
+<div class="js-surname"></div>
+<div class="js-username"></div>
+
+  <div class="c-lichtsensor js-name"></div>
+  <div class="c-temperatuursensor">lichtsensor</div>
+  <div class="c-snelheidservomotor">lichtsensor</div>
+  <div class="c-lasertransmittors status">lichtsensor</div>
+  <div class="c-lichtsensor">lichtsensor</div> -->
+</body>
+
+</html>
